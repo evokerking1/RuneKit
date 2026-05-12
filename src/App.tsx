@@ -7,7 +7,7 @@ import { Button } from './components/primitives/Button'
 import { Glyph } from './components/primitives/Glyph'
 import { Input } from './components/primitives/Input'
 import { useReducedMotionPreference } from './hooks/useReducedMotionPreference'
-import { durations, runeMotion, withMotionPreference } from './motion/presets'
+import { durations, runeMotion } from './motion/presets'
 import { applyTheme, type ThemeName } from './tokens'
 
 const navItems = [
@@ -27,10 +27,7 @@ function App() {
   const [activeNav, setActiveNav] = useState('archives')
   const reducedMotion = useReducedMotionPreference()
 
-  const variant = useMemo(
-    () => withMotionPreference(reducedMotion, runeMotion.phaseIn, { hidden: {}, visible: {} }),
-    [reducedMotion],
-  )
+  const variant = useMemo(() => (reducedMotion ? undefined : runeMotion.phaseIn), [reducedMotion])
 
   const setThemeAndApply = (nextTheme: ThemeName) => {
     setTheme(nextTheme)
@@ -40,8 +37,8 @@ function App() {
   return (
     <main className="rk-grid min-h-screen p-6 text-text">
       <motion.section
-        initial="hidden"
-        animate="visible"
+        initial={variant ? 'hidden' : false}
+        animate={variant ? 'visible' : undefined}
         variants={variant}
         transition={{ duration: durations.normal }}
         className="mx-auto grid w-full max-w-6xl gap-4 lg:grid-cols-[240px_1fr]"

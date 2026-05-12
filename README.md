@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# RuneKit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RuneKit is a symbolic UI system with two runtime theme variants:
 
-Currently, two official plugins are available:
+- **Raidho**: ceremonial, atmospheric, high-glow interfaces
+- **Inawaz**: analytical, structured, restrained operational interfaces
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This repository ships a React + TypeScript + Tailwind + Storybook implementation of the RuneKit guide.
 
-## React Compiler
+## Implemented system pieces
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Token architecture (`src/tokens`) for core, Raidho, and Inawaz values
+- Theme switching via `html[data-theme]`
+- Motion presets and reduced-motion handling (`src/motion`, `src/hooks`)
+- Glyph system (`src/components/primitives/Glyph.tsx`)
+- Core primitives and structures:
+  - Button
+  - Input
+  - Card
+  - Navigation
+  - Data table
+- Tailwind semantic aliases and RuneKit utility layer (`tailwind.config.js`, `src/index.css`)
+- Storybook with runtime theme toolbar and RuneKit preview styling
+- Story suites for foundations, primitives, composites, data display, navigation, feedback, layouts, and experimental work
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React + TypeScript + Vite
+- TailwindCSS
+- Framer Motion
+- Storybook
+- clsx + tailwind-merge
+- Radix Slot
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Scripts
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
+npm run build
+npm run lint
+npm run storybook
+npm run build-storybook
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Theme usage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```ts
+import { applyTheme } from './src/tokens'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+applyTheme('raidho')
+applyTheme('inawaz')
 ```
+
+Theme tokens are backed by CSS variables and consumed through Tailwind semantic color aliases.

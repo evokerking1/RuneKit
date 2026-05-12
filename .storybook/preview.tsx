@@ -43,7 +43,7 @@ const preview: Preview = {
       values: [{ name: 'runekit', value: '#070b14' }],
     },
     a11y: {
-      test: 'todo',
+      test: 'error',
     },
     docs: {
       description: {
